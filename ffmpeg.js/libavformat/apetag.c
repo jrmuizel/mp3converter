@@ -69,7 +69,7 @@ static int ape_tag_read_field(AVFormatContext *s)
         }
 
         av_dict_set(&st->metadata, key, filename, 0);
-
+#if CONFIG_IMAGE2_MUXER
         if ((id = ff_guess_image2_codec(filename)) != AV_CODEC_ID_NONE) {
             AVPacket pkt;
             int ret;
@@ -87,7 +87,9 @@ static int ape_tag_read_field(AVFormatContext *s)
             st->attached_pic              = pkt;
             st->attached_pic.stream_index = st->index;
             st->attached_pic.flags       |= AV_PKT_FLAG_KEY;
-        } else {
+        } else
+#endif
+        {
             st->codec->extradata = av_malloc(size + FF_INPUT_BUFFER_PADDING_SIZE);
             if (!st->codec->extradata)
                 return AVERROR(ENOMEM);

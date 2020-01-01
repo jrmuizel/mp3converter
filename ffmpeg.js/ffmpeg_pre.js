@@ -50,7 +50,7 @@ function ffmpeg_run(opts) {
         if (result && result.object && result.object.contents) {
             for (var i in result.object.contents) {
                 if (result.object.contents.hasOwnProperty(i)) {
-                    outputFiles[i] = new Uint8Array(result.object.contents[i].contents).buffer;
+                    outputFiles[i] = new Uint8Array(result.object.contents[i].contents.subarray(0, result.object.contents[i].usedBytes)).buffer;
                 }
             }
         }
